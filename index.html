@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>night club — Discord Server</title>
+
+    <!-- Google Font (optional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <meta name="description" content="night club — official hub for music, chill, and events on Discord." />
+
+    <style>
+        :root{
+            --bg1: #05010a;
+            --accent1: #7c3aed;
+            --accent2: #00e5ff;
+            --glass: rgba(255,255,255,0.04);
+            --card-bg: rgba(255,255,255,0.03);
+            --muted: rgba(255,255,255,0.6);
+            --neon1: #ff2d95;
+            --neon2: #7c3aed;
+            --max-width: 1100px;
+            color-scheme: dark;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background:
+                radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.08), transparent 8%),
+                radial-gradient(1000px 500px at 90% 90%, rgba(0,229,255,0.06), transparent 10%),
+                linear-gradient(180deg,var(--bg1), #050014 60%);
+            overflow-x:hidden;
+            color:#e9eefb;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            padding:48px 20px;
+            display:flex;
+            justify-content:center;
+            align-items:flex-start;
+        }
+
+        /* floating disco lights */
+        .lights{position:fixed;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0.25}
+        .light{
+            position:absolute;border-radius:50%;
+            filter:blur(56px);
+            opacity:0.9;
+            animation:float 8s ease-in-out infinite;
+        }
+        .light.l1{width:420px;height:420px;left:-5%;top:-10%;background:radial-gradient(circle,#ff2d95,transparent 35%);animation-duration:11s}
+        .light.l2{width:600px;height:600px;right:-15%;bottom:-10%;background:radial-gradient(circle,#00e5ff,transparent 30%);animation-duration:14s}
+        .light.l3{width:260px;height:260px;left:30%;top:60%;background:radial-gradient(circle,#7c3aed,transparent 40%);animation-duration:9s}
+        @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-22px) scale(1.04)}}
+
+        .container{
+            width:100%;
+            max-width:var(--max-width);
+            backdrop-filter: blur(6px);
+            position:relative;
+            z-index:1;
+        }
+
+        header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:20px;
+            margin-bottom:28px;
+        }
+
+        .brand{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+        .logo{
+            width:68px;height:68px;border-radius:14px;
+            background:linear-gradient(135deg,var(--neon1),var(--neon2));
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 30px rgba(124,58,237,0.18), 0 2px 8px rgba(0,229,255,0.08);
+            font-family:Orbitron, Inter, sans-serif;
+            color:white;
+            font-weight:700;
+            letter-spacing:0.6px;
+            transform:skewY(-4deg);
+        }
+        .title{
+            line-height:1;
+        }
+        .title h1{
+            margin:0;font-family:Orbitron, Inter, sans-serif;
+            font-size:20px; text-transform:lowercase;
+            color:linear-gradient(#fff,#ddd);
+            text-shadow:0 0 12px rgba(255,255,255,0.06),0 2px 20px rgba(0,0,0,0.6);
+        }
+        .title p{
+            margin:0;font-size:12px;color:var(--muted);
+        }
+
+        nav{display:flex;gap:10px;align-items:center}
+        .btn{
+            appearance:none;background:transparent;border:1px solid rgba(255,255,255,0.06);
+            color:var(--muted);padding:8px 12px;border-radius:10px;font-weight:600;
+            cursor:pointer;transition:all .18s ease;font-size:13px;
+            backdrop-filter: blur(6px);
+        }
+        .btn:hover{transform:translateY(-3px);color:#fff;border-color:rgba(255,255,255,0.12)}
+        .btn.primary{
+            background:linear-gradient(90deg,var(--accent2),var(--accent1));
+            color:#061226;border:none;box-shadow:0 6px 30px rgba(0,229,255,0.08),0 4px 18px rgba(124,58,237,0.08);
+        }
+
+        main{
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+            border:1px solid rgba(255,255,255,0.04);
+            border-radius:14px;padding:28px;
+            display:grid;grid-template-columns:1fr 360px;gap:22px;
+            align-items:start;
+        }
+
+        /* left column */
+        .hero{
+            padding:18px;border-radius:10px;background:linear-gradient(180deg,var(--card-bg),transparent);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+        }
+        .hero h2{
+            margin:0 0 8px 0;font-family:Orbitron, Inter, sans-serif;font-size:28px;
+            background:linear-gradient(90deg,var(--neon1),var(--neon2));
+            -webkit-background-clip:text;background-clip:text;color:transparent;
+            text-shadow:0 6px 34px rgba(124,58,237,0.12);
+        }
+        .hero p{margin:0 0 18px 0;color:var(--muted);font-size:15px;line-height:1.4}
+
+        .features{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+        .chip{
+            padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.02);
+            border:1px solid rgba(255,255,255,0.03);font-weight:600;font-size:13px;color:var(--muted)
+        }
+
+        .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+        .card{
+            padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+            border:1px solid rgba(255,255,255,0.03);
+        }
+        .card h3{margin:0 0 6px 0;font-size:15px}
+        .card p{margin:0;color:var(--muted);font-size:13px}
+
+        /* right column */
+        .aside{
+            position:sticky;top:28px;
+            display:flex;flex-direction:column;gap:14px;
+        }
+        .invite{
+            padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border:1px solid rgba(255,255,255,0.04);
+            display:flex;flex-direction:column;gap:10px;align-items:stretch;
+        }
+        .invite .big{
+            font-family:Orbitron, Inter, sans-serif;font-size:20px;
+            color:transparent;background:linear-gradient(90deg,var(--neon2),var(--neon1));
+            -webkit-background-clip:text;background-clip:text;
+        }
+        .invite .desc{color:var(--muted);font-size:13px}
+        .invite .controls{display:flex;gap:8px;align-items:center}
+        .invite input{
+            flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+            background:transparent;color:var(--muted);font-size:13px;
+        }
+        .invite .actions{display:flex;gap:8px}
+        .small{font-size:12px;color:var(--muted)}
+
+        /* rules / events */
+        .meta{
+            padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+            border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted)
+        }
+        .rules li{margin:6px 0}
+
+        footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+        /* responsive */
+        @media (max-width:980px){
+            main{grid-template-columns:1fr; padding:18px}
+            .aside{position:relative;top:auto}
+            .logo{width:54px;height:54px}
+        }
+    </style>
+</head>
+<body>
+    <div class="lights" aria-hidden="true">
+        <div class="light l1"></div>
+        <div class="light l2"></div>
+        <div class="light l3"></div>
+    </div>
+
+    <div class="container" role="main">
+        <header>
+            <div class="brand">
+                <div class="logo" aria-hidden="true">NC</div>
+                <div class="title">
+                    <h1>night club</h1>
+                    <p>Discord community</p>
+                </div>
+            </div>
+            <nav aria-label="Primary">
+                <button class="btn primary" id="joinBtn">Join Server</button>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero" aria-labelledby="hero-title">
+                <h2 id="hero-title">vibe with us — night club</h2>
+                <p>Welcome to night club — server ta3 rakcha m3a las7ab.</p>
+
+                <div class="features" role="list">
+                    <div class="chip" role="listitem">Live DJ sets</div>
+                    <div class="chip" role="listitem">Movie nights</div>
+                    <div class="chip" role="listitem">Study & chill zones</div>
+                    <div class="chip" role="listitem">Art & collabs</div>
+                </div>
+
+                <div style="margin-top:18px;font-size:13px;color:var(--muted);">
+                    <strong>How to join</strong>
+                    <p style="margin:6px 0 0 0">Click "Join Server" or copy the invite from the right. See rules and event schedules once you join.</p>
+                </div>
+            </section>
+
+            <aside class="aside" aria-label="Sidebar">
+                <div class="invite" aria-labelledby="invite-title">
+                    <div>
+                        <div class="big" id="invite-title">Join night club</div>
+                        <div class="desc">Click the button or copy the invite link below and open it in Discord.</div>
+                    </div>
+
+                    <div class="controls" role="group" aria-label="Invite controls">
+                        <input id="inviteInput" readonly value="https://discord.gg/7w6v5QeWn9" aria-label="Invite link">
+                        <div class="actions">
+                            <button class="btn primary" id="openInvite">Open</button>
+                            <button class="btn" id="copyInvite">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="small">Tip: paste the link in mobile or desktop Discord to join instantly.</div>
+                </div>
+
+                <div class="meta" aria-labelledby="rules-title">
+                    <h4 id="rules-title" style="margin:0 0 8px 0">Server rules</h4>
+                    <ul class="rules" style="padding-left:18px;margin:0">
+                        <li>Interdit 𝙨𝙚𝙗𝙚𝙣 𝙬𝙖𝙡𝙙𝙞𝙣.</li>
+                        <li>No 𝙩𝙧𝙤𝙡𝙡.</li>
+                        <li>Interdit 𝙙𝙞𝙨𝙧𝙚𝙨𝙥𝙚𝙘𝙩 friend.</li>
+                        <li>Interdit 𝙩𝙞𝙢𝙚 𝙤𝙪𝙩 𝙛𝙧𝙚𝙞𝙣𝙙 𝙬𝙞𝙩𝙝𝙤𝙪𝙩 𝙧𝙚𝙖𝙨𝙤𝙣.</li>
+                        <li>Interdit 𝙨𝙥𝙖𝙢 𝙢𝙤𝙫𝙚.</li>
+                        <li>Follow Discord Terms of Service.</li>
+                    </ul>
+                </div>
+
+                <div class="meta" aria-labelledby="connect-title">
+                    <h4 id="connect-title" style="margin:0 0 8px 0">Stay connected</h4>
+                    <p style="margin:0 0 6px 0;color:var(--muted)">Follow announcements and event updates directly in server channels.</p>
+                    <div style="display:flex;gap:8px;margin-top:8px">
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <footer>
+            This Site Devloped by BHK © 
+        </footer>
+    </div>
+
+    <script>
+        // GitHub Copilot — interactive bits
+        const INVITE = "https://discord.gg/7w6v5QeWn9"; // <-- replace with your real invite
+        const joinBtn = document.getElementById('joinBtn');
+        const openInvite = document.getElementById('openInvite');
+        const copyInvite = document.getElementById('copyInvite');
+        const inviteInput = document.getElementById('inviteInput');
+
+        inviteInput.value = INVITE;
+
+        function openLink(){
+            // try to open in new tab; desktop/mobile will handle opening Discord
+            window.open(INVITE, '_blank', 'noopener');
+        }
+
+        async function copyToClipboard(text){
+            try {
+                await navigator.clipboard.writeText(text);
+                copyInvite.textContent = "Copied!";
+                setTimeout(()=> copyInvite.textContent = "Copy", 1600);
+            } catch (e) {
+                // fallback
+                inviteInput.select();
+                document.execCommand('copy');
+                copyInvite.textContent = "Copied!";
+                setTimeout(()=> copyInvite.textContent = "Copy", 1600);
+            }
+        }
+
+        joinBtn.addEventListener('click', openLink);
+        openInvite.addEventListener('click', openLink);
+        copyInvite.addEventListener('click', ()=> copyToClipboard(INVITE));
+
+        // small UX: pressing Enter when input focused opens link
+        inviteInput.addEventListener('keydown', (e)=>{
+            if(e.key === 'Enter') openLink();
+        });
+    </script>
+</body>
+</html>
