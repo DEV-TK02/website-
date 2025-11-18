@@ -136,3 +136,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         if(!hideRequested) onLoaded();
     }, 7000);
 })();
+
+// Register a small service worker for offline / PWA support
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+    .then(reg => console.log('ServiceWorker registered:', reg.scope))
+    .catch(err => console.warn('ServiceWorker registration failed:', err));
+}
