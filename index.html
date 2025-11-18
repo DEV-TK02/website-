@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>night club</title>
@@ -21,7 +22,22 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=()">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-
+<script>
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script>
+  (function(){
+    const host = location.hostname;
+    // allow vercel preview+production and your own domain
+    if (host.endsWith('.vercel.app') || host === 'https://nightclub-indol.vercel.app/') {
+      const s = document.createElement('script');
+      s.src = '/_vercel/speed-insights/script.js';
+      s.defer = true;
+      s.crossOrigin = 'anonymous';
+      document.head.appendChild(s);
+    }
+  })();
+</script>
     <style>
         :root{
             --bg1: #050005;
@@ -372,7 +388,7 @@
                     </div>
 
                     <div class="controls" role="group" aria-label="Invite controls">
-                        <input id="inviteInput" readonly value="https://discord.gg/aPKREfAP3J" aria-label="Invite link">
+                        <input id="inviteInput" readonly value="https://discord.gg/e9w5NsrpEJ" aria-label="Invite link">
                         <div class="actions">
                             <button class="btn primary" id="openInvite">Open</button>
                             <button class="btn" id="copyInvite">Copy</button>
