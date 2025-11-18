@@ -1,4 +1,4 @@
-const INVITE = "https://discord.gg/7w6v5QeWn9";
+const INVITE = "https://discord.gg/e9w5NsrpEJ";
 const joinBtn = document.getElementById('joinBtn');
 const openInvite = document.getElementById('openInvite');
 const copyInvite = document.getElementById('copyInvite');
