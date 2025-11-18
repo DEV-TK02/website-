@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>night club — Discord Server</title>
 
-    <!-- Google Font (optional) -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <meta name="description" content="night club — official hub for music, chill, and events on Discord." />
 
-    <!-- Security-related meta headers (helpful for static hosting when server headers aren't configured).
-        NOTE: Content-Security-Policy meta tag has been removed in favor of server-provided headers (see `vercel.json`). -->
-    <!-- Note: script-src no longer includes 'unsafe-inline' because scripts are moved to external file (`main.js`) -->
+    
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=()">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -49,7 +46,7 @@
             align-items:flex-start;
         }
 
-        /* floating disco lights */
+        
         .lights{position:fixed;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0.25}
         .light{
             position:absolute;border-radius:50%;
@@ -128,7 +125,7 @@
             align-items:start;
         }
 
-        /* left column */
+        
         .hero{
             padding:18px;border-radius:10px;background:linear-gradient(180deg,var(--card-bg),transparent);
             box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
@@ -155,7 +152,7 @@
         .card h3{margin:0 0 6px 0;font-size:15px}
         .card p{margin:0;color:var(--muted);font-size:13px}
 
-        /* right column */
+        
         .aside{
             position:sticky;top:28px;
             display:flex;flex-direction:column;gap:14px;
@@ -179,7 +176,7 @@
         .invite .actions{display:flex;gap:8px}
         .small{font-size:12px;color:var(--muted)}
 
-        /* rules / events */
+        
         .meta{
             padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
             border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted)
@@ -188,8 +185,7 @@
 
         footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
 
-        /* animations */
-        /* stronger neon pulse + subtle flicker for logo */
+        
         @keyframes neonPulse {
             0% { text-shadow: 0 0 6px rgba(255,45,149,0.5), 0 0 18px rgba(124,58,237,0.10); transform:translateY(0); }
             45% { text-shadow: 0 0 18px rgba(255,45,149,0.95), 0 0 48px rgba(124,58,237,0.22); transform:translateY(-3px); }
@@ -208,24 +204,24 @@
         .neon{ animation: neonPulse 3.2s ease-in-out infinite; }
         .logo.neon{ animation-name: neonPulse, logoFlicker; animation-duration:3.2s, 6s; animation-iteration-count:infinite, infinite; animation-timing-function:ease-in-out, steps(1,end) }
 
-        /* moving color wash background */
+        
         @keyframes colorWash { 0%{ filter:hue-rotate(0deg) } 50%{ filter:hue-rotate(22deg) } 100%{ filter:hue-rotate(0deg) } }
         body::before{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none; mix-blend-mode:overlay; background: radial-gradient(600px 400px at 15% 10%, rgba(124,58,237,0.06), transparent 15%), radial-gradient(700px 500px at 85% 90%, rgba(0,229,255,0.04), transparent 12%); animation:colorWash 14s ease-in-out infinite }
 
-        /* reveal-on-scroll / entrance animations */
+        
         .revealable{ opacity:0; transform:translateY(10px) scale(0.995); transition:opacity .6s cubic-bezier(.2,.9,.3,1), transform .6s cubic-bezier(.2,.9,.3,1); will-change:opacity,transform }
         .revealable.reveal{ opacity:1; transform:none }
 
-        /* small pulsing glow around primary buttons on hover */
+        
         .btn.primary{ position:relative; overflow:visible }
         .btn.primary::after{ content:""; position:absolute; inset:-6px; border-radius:12px; background: radial-gradient(circle at 30% 30%, rgba(0,229,255,0.06), transparent 30%); opacity:0; transition:opacity .22s ease, transform .22s ease; pointer-events:none }
         .btn.primary:hover::after{ opacity:1; transform:scale(1.02) }
 
-        /* subtle card reveal (if cards appear) */
+        
         .card{ transition: transform .5s cubic-bezier(.2,.9,.3,1), opacity .5s ease }
         .card.reveal{ opacity:1; transform:none }
 
-        /* loading overlay styles */
+        
         #site-loader{
             position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
             background:linear-gradient(180deg, rgba(5,1,10,0.97), rgba(5,1,10,0.99));
@@ -238,16 +234,16 @@
         .spinner{ width:56px;height:56px;border-radius:50%;border:5px solid rgba(255,255,255,0.07);border-top-color:var(--accent2); box-shadow:0 8px 40px rgba(0,229,255,0.06); animation:spin 1s linear infinite }
         @keyframes spin{ to{ transform:rotate(360deg) }}
 
-        /* accessible helper */
+        
         .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;border:0;padding:0;margin:-1px}
 
-        /* respect reduced motion preferences */
+        
         @media (prefers-reduced-motion: reduce){
             .spinner{ animation:none }
             .neon{ animation:none }
         }
 
-        /* loader enhancements */
+        
         .loader-inner{ text-align:center }
         .loader-logo{ width:74px;height:74px;border-radius:12px;margin:0 auto 12px auto;display:flex;align-items:center;justify-content:center;font-family:Orbitron,Inter,sans-serif;background:linear-gradient(135deg,var(--neon1),var(--neon2));color:#fff;font-weight:800;letter-spacing:1px;box-shadow:0 10px 40px rgba(124,58,237,0.18); font-size:20px }
         .loader-progress{ display:flex;gap:8px;justify-content:center;margin-top:12px }
@@ -258,12 +254,10 @@
             .loader-progress .dot{ transform:none; opacity:1 }
         }
 
-        /* fix: remove unwanted white outline when the page programmatically focuses the container
-           keep a subtle focus-visible ring for keyboard users to preserve accessibility */
         .container:focus{ outline: none; }
         .container:focus-visible{ outline: 2px solid rgba(124,58,237,0.18); outline-offset:6px; border-radius:12px }
 
-        /* responsive */
+        
         @media (max-width:980px){
             main{grid-template-columns:1fr; padding:18px}
             .aside{position:relative;top:auto}
@@ -272,7 +266,6 @@
     </style>
 </head>
 <body>
-    <!-- full-page loading overlay (accessible) -->
     <div id="site-loader" role="status" aria-live="polite" aria-label="Loading content">
         <div class="loader-inner">
             <div class="loader-logo" aria-hidden="true">NC</div>
