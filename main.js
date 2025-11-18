@@ -1,4 +1,4 @@
-const INVITE = "https://discord.gg/e9w5NsrpEJ";
+const INVITE = "https://discord.gg/aPKREfAP3J";
 const joinBtn = document.getElementById('joinBtn');
 const openInvite = document.getElementById('openInvite');
 const copyInvite = document.getElementById('copyInvite');
@@ -143,3 +143,4 @@ if ('serviceWorker' in navigator) {
     .then(reg => console.log('ServiceWorker registered:', reg.scope))
     .catch(err => console.warn('ServiceWorker registration failed:', err));
 }
+
