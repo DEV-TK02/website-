@@ -1,17 +1,24 @@
-// Simple service worker: precache a few assets and serve cache-first for navigation
 const CACHE_NAME = 'nc-cache-v1';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/main.js',
   '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/nightclub.png'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(PRECACHE_URLS).catch(err => {
+        console.warn('Some precache assets failed to cache:', err);
+        return Promise.all(
+          PRECACHE_URLS.map(url => 
+            cache.add(url).catch(e => console.warn(`Failed to cache ${url}`, e))
+          )
+        );
+      });
+    })
   );
   self.skipWaiting();
 });
@@ -27,12 +34,37 @@ self.addEventListener('fetch', event => {
   // navigation requests -> return cached index.html (app shell)
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      caches.match('/index.html').then(resp => resp || fetch(event.request))
+      caches.match('/index.html')
+        .then(resp => resp || fetch(event.request))
+        .catch(err => {
+          console.warn('Navigation fetch failed:', err);
+          return caches.match('/index.html');
+        })
     );
     return;
   }
-  // other requests -> cache-first
+  
   event.respondWith(
-    caches.match(event.request).then(resp => resp || fetch(event.request))
+    caches.match(event.request)
+      .then(resp => {
+        if (resp) return resp;
+        
+        return fetch(event.request).then(response => {
+          if (!response || response.status !== 200 || response.type === 'error') {
+            return response;
+          }
+          
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+          
+          return response;
+        });
+      })
+      .catch(err => {
+        console.warn('Fetch failed:', err);
+        return caches.match(event.request);
+      })
   );
 });
