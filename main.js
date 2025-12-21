@@ -23,6 +23,22 @@ function sanitizeInput(text) {
     return div.innerHTML;
 }
 
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    notification.setAttribute('role', 'status');
+    notification.setAttribute('aria-live', 'polite');
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.classList.add('out');
+        setTimeout(() => {
+            notification.remove();
+        }, 400);
+    }, 2500);
+}
+
 function openLink(){
     if(!isAllowedUrl(INVITE)){
         console.warn('Blocked opening an untrusted invite URL', INVITE);
@@ -242,12 +258,16 @@ async function loadDiscordOnline() {
                 a.href = `https://discord.com/users/${m.id}`;
                 a.target = '_blank';
                 a.rel = 'noopener noreferrer';
-                a.title = `${sanitizeInput(m.username || 'user')}${m.discriminator ? '#' + m.discriminator : ''}`;
-                a.setAttribute('aria-label', `Visit ${sanitizeInput(m.username || 'user')} on Discord`);
+                
+                const actualUsername = m.username || 'user';
+                const displayName = `${sanitizeInput(actualUsername)}${m.discriminator && m.discriminator !== '0000' ? '#' + m.discriminator : ''}`;
+                a.title = displayName;
+                a.setAttribute('aria-label', `${sanitizeInput(actualUsername)} - Click to copy username`);
                 a.style.display = 'inline-block';
+                a.style.cursor = 'pointer';
 
                 const img = document.createElement('img');
-                img.alt = sanitizeInput(m.username || 'user');
+                img.alt = sanitizeInput(actualUsername);
                 img.style.width = '40px';
                 img.style.height = '40px';
                 img.style.borderRadius = '50%';
@@ -266,6 +286,18 @@ async function loadDiscordOnline() {
                 }
 
                 a.appendChild(img);
+                
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const copyUsername = m.username || 'user';
+                    navigator.clipboard.writeText(copyUsername).then(() => {
+                        showNotification(`Copied ${copyUsername} - ready to add as friend!`);
+                    }).catch(err => {
+                        console.error('Failed to copy username:', err);
+                        showNotification('Failed to copy username');
+                    });
+                });
+
                 listEl.appendChild(a);
             });
         } else {
